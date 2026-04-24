@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.7);
+    --glass-shadow: 0 8px 32px rgba(79, 95, 255, 0.08);
+    --orb-1: rgba(99, 102, 241, 0.15);
+    --orb-2: rgba(139, 92, 246, 0.1);
+    --orb-3: rgba(59, 130, 246, 0.08);
+  }
+
+  .dark {
+    --glass-bg: rgba(15, 17, 35, 0.65);
+    --glass-border: rgba(79, 95, 255, 0.18);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --orb-1: rgba(79, 95, 255, 0.12);
+    --orb-2: rgba(139, 92, 246, 0.08);
+    --orb-3: rgba(16, 185, 129, 0.05);
+  }
+
+  * {
+    @apply box-border;
+  }
+
+  html, body, #root {
+    @apply h-full;
+  }
+
+  body {
+    @apply font-body antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-midnight-300/40 dark:bg-midnight-700/50;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-midnight-400/60 dark:bg-midnight-600/70;
+  }
+}
+
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .glass-subtle {
+    background: rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,255,255,0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .dark .glass-subtle {
+    background: rgba(20, 22, 48, 0.5);
+    border: 1px solid rgba(79, 95, 255, 0.12);
+  }
+
+  .dot-1 { animation: bounceDot 1.2s ease-in-out infinite; }
+  .dot-2 { animation: bounceDot 1.2s ease-in-out 0.2s infinite; }
+  .dot-3 { animation: bounceDot 1.2s ease-in-out 0.4s infinite; }
+}
+
+/* Prose-style message formatting */
+.message-prose p { @apply mb-2 last:mb-0; }
+.message-prose ul { @apply list-disc pl-5 mb-2 space-y-1; }
+.message-prose ol { @apply list-decimal pl-5 mb-2 space-y-1; }
+.message-prose strong { @apply font-semibold; }
+.message-prose em { @apply italic; }
+.message-prose code {
+  @apply font-mono text-sm bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded;
+}
+.message-prose pre {
+  @apply font-mono text-sm bg-black/10 dark:bg-white/10 p-3 rounded-lg overflow-x-auto my-2;
+}
+
+/* Background orbs */
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
