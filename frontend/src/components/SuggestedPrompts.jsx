@@ -1,40 +1,77 @@
 import React from "react";
 
-
 const SUGGESTIONS = [
-  { icon: "🏛️", label: "Fall of Rome", prompt: "What caused the fall of the Roman Empire?" },
-  { icon: "🔬", label: "DNA discovery", prompt: "Who discovered the structure of DNA and how?" },
-  { icon: "🌍", label: "WW2 turning points", prompt: "What were the major turning points of World War II?" },
-  { icon: "🚀", label: "Space race", prompt: "Explain the Space Race between the US and USSR." },
-  { icon: "⚡", label: "Quantum physics", prompt: "What is quantum mechanics in simple terms?" },
-  { icon: "🗺️", label: "Largest countries", prompt: "What are the 10 largest countries by land area?" },
+  {
+    icon: "💻",
+    label: "Write Code",
+    prompt: "Write a Python function to find the fibonacci sequence using dynamic programming.",
+    gradient: "from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20",
+    border: "border-blue-200/40 dark:border-blue-800/20",
+  },
+  {
+    icon: "✍️",
+    label: "Creative Writing",
+    prompt: "Write a short poem about the beauty of a starry night sky.",
+    gradient: "from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20",
+    border: "border-purple-200/40 dark:border-purple-800/20",
+  },
+  {
+    icon: "🔬",
+    label: "Explain Science",
+    prompt: "Explain quantum entanglement in simple terms that anyone can understand.",
+    gradient: "from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/20",
+    border: "border-emerald-200/40 dark:border-emerald-800/20",
+  },
+  {
+    icon: "📊",
+    label: "Data Analysis",
+    prompt: "What are the best techniques for analyzing large datasets and finding patterns?",
+    gradient: "from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20",
+    border: "border-amber-200/40 dark:border-amber-800/20",
+  },
+  {
+    icon: "🏛️",
+    label: "History",
+    prompt: "What were the key events that led to the Renaissance period in Europe?",
+    gradient: "from-rose-50 to-red-50 dark:from-rose-950/20 dark:to-red-950/20",
+    border: "border-rose-200/40 dark:border-rose-800/20",
+  },
+  {
+    icon: "🧮",
+    label: "Math Help",
+    prompt: "Explain the concept of derivatives in calculus with a real-world example.",
+    gradient: "from-cyan-50 to-sky-50 dark:from-cyan-950/20 dark:to-sky-950/20",
+    border: "border-cyan-200/40 dark:border-cyan-800/20",
+  },
 ];
 
 export default function SuggestedPrompts({ onSelect }) {
   return (
-    <div className="px-4 py-6 animate-fade-in">
-      <div className="max-w-4xl mx-auto">
-        <p className="text-center text-xs text-slate-400 dark:text-slate-500 mb-4 font-body">
-          Try asking about…
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {SUGGESTIONS.map(({ icon, label, prompt }) => (
-            <button
-              key={label}
-              onClick={() => onSelect(prompt)}
-              className="glass-subtle rounded-xl px-3 py-2.5 text-left
-                         hover:bg-midnight-50/60 dark:hover:bg-midnight-900/30
-                         border border-white/60 dark:border-midnight-700/30
-                         transition-all duration-200 hover:scale-[1.02] hover:shadow-md
-                         group"
-            >
-              <span className="text-base block mb-0.5">{icon}</span>
-              <span className="text-xs font-medium text-slate-700 dark:text-slate-300 group-hover:text-midnight-600 dark:group-hover:text-midnight-300 transition-colors">
-                {label}
-              </span>
-            </button>
-          ))}
-        </div>
+    <div className="w-full max-w-2xl mx-auto">
+      <p className="text-center text-xs text-slate-400 dark:text-slate-500 mb-4 font-body">
+        Try asking about…
+      </p>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+        {SUGGESTIONS.map(({ icon, label, prompt, gradient, border }, i) => (
+          <button
+            key={label}
+            onClick={() => onSelect(prompt)}
+            className={`
+              bg-gradient-to-br ${gradient}
+              border ${border}
+              rounded-xl px-3.5 py-3 text-left
+              hover:scale-[1.03] hover:shadow-md
+              transition-all duration-200
+              animate-slide-up group
+            `}
+            style={{ animationDelay: `${i * 80}ms`, animationFillMode: "backwards" }}
+          >
+            <span className="text-lg block mb-1">{icon}</span>
+            <span className="text-xs font-medium text-slate-600 dark:text-slate-300 group-hover:text-slate-800 dark:group-hover:text-white transition-colors">
+              {label}
+            </span>
+          </button>
+        ))}
       </div>
     </div>
   );

@@ -6,22 +6,21 @@ export default function TypingIndicator() {
     <div className="flex gap-3 animate-fade-in">
       {/* AI avatar */}
       <div className="flex-shrink-0 mt-1">
-        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-midnight-500 to-violet-600 flex items-center justify-center shadow-sm shadow-midnight-500/30">
+        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center shadow-sm shadow-indigo-400/20 ring-2 ring-white/50 dark:ring-slate-800/50">
           <Brain size={13} className="text-white" />
         </div>
       </div>
 
-      {/* Bubble */}
-      <div className="glass-subtle px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm">
+      {/* Shimmer bubble */}
+      <div className="bg-white/70 dark:bg-slate-800/60 border border-slate-200/50 dark:border-slate-700/30 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm">
         <div className="flex items-center gap-3">
-          {/* Bouncing dots */}
           <div className="flex items-center gap-1">
-            <span className="dot-1 w-1.5 h-1.5 rounded-full bg-midnight-500/70 dark:bg-midnight-400/70 inline-block" />
-            <span className="dot-2 w-1.5 h-1.5 rounded-full bg-midnight-500/70 dark:bg-midnight-400/70 inline-block" />
-            <span className="dot-3 w-1.5 h-1.5 rounded-full bg-midnight-500/70 dark:bg-midnight-400/70 inline-block" />
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400/70 dark:bg-indigo-400/60 inline-block dot-1" />
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400/70 dark:bg-indigo-400/60 inline-block dot-2" />
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400/70 dark:bg-indigo-400/60 inline-block dot-3" />
           </div>
-          <span className="text-xs text-slate-500 dark:text-slate-400 font-body italic">
-            Intellichat is thinking…
+          <span className="text-xs text-slate-400 dark:text-slate-500 font-body italic">
+            Thinking…
           </span>
         </div>
       </div>

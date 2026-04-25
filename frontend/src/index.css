@@ -6,19 +6,13 @@
   :root {
     --glass-bg: rgba(255, 255, 255, 0.55);
     --glass-border: rgba(255, 255, 255, 0.7);
-    --glass-shadow: 0 8px 32px rgba(79, 95, 255, 0.08);
-    --orb-1: rgba(99, 102, 241, 0.15);
-    --orb-2: rgba(139, 92, 246, 0.1);
-    --orb-3: rgba(59, 130, 246, 0.08);
+    --glass-shadow: 0 8px 32px rgba(99, 102, 241, 0.06);
   }
 
   .dark {
     --glass-bg: rgba(15, 17, 35, 0.65);
-    --glass-border: rgba(79, 95, 255, 0.18);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    --orb-1: rgba(79, 95, 255, 0.12);
-    --orb-2: rgba(139, 92, 246, 0.08);
-    --orb-3: rgba(16, 185, 129, 0.05);
+    --glass-border: rgba(99, 102, 241, 0.12);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
   * {
@@ -41,10 +35,10 @@
     @apply bg-transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-midnight-300/40 dark:bg-midnight-700/50;
+    @apply rounded-full bg-slate-300/40 dark:bg-slate-600/40;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-midnight-400/60 dark:bg-midnight-600/70;
+    @apply bg-slate-400/50 dark:bg-slate-500/50;
   }
 }
 
@@ -66,7 +60,7 @@
 
   .dark .glass-subtle {
     background: rgba(20, 22, 48, 0.5);
-    border: 1px solid rgba(79, 95, 255, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.08);
   }
 
   .dot-1 { animation: bounceDot 1.2s ease-in-out infinite; }
@@ -81,10 +75,10 @@
 .message-prose strong { @apply font-semibold; }
 .message-prose em { @apply italic; }
 .message-prose code {
-  @apply font-mono text-sm bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded;
+  @apply font-mono text-sm;
 }
 .message-prose pre {
-  @apply font-mono text-sm bg-black/10 dark:bg-white/10 p-3 rounded-lg overflow-x-auto my-2;
+  @apply font-mono text-sm overflow-x-auto my-2;
 }
 
 /* Background orbs */
@@ -94,4 +88,16 @@
   filter: blur(80px);
   pointer-events: none;
   z-index: 0;
+}
+
+/* Cursor blink animation */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Bounce dot animation */
+@keyframes bounceDot {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-6px); opacity: 1; }
 }
