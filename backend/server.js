@@ -1,8 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import OpenAI from "openai";
-
+import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config();
 
 const app = express();
@@ -15,9 +14,7 @@ const SYSTEM_PROMPT =
   process.env.SYSTEM_PROMPT ||
   "You are Intellichat, a helpful, accurate, and friendly AI assistant. You provide clear, well-structured answers. When showing code, always use markdown code blocks with the language specified.";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 // ── Simple in-memory rate limiter (20 req/min per IP) ──────────────────
 const rateMap = new Map();
@@ -60,23 +57,20 @@ app.post("/api/chat/stream", rateLimit, async (req, res) => {
   res.flushHeaders();
 
   try {
-    const stream = await client.chat.completions.create({
-      model: MODEL,
-      stream: true,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        ...history.slice(-10).map((m) => ({
-          role: m.sender === "user" ? "user" : "assistant",
-          content: m.text,
-        })),
-        { role: "user", content: message.trim() },
-      ],
-    });
+    const model = genAI.getGenerativeModel({ model: MODEL });
+    const stream = await model.generateContentStream([
+      { text: SYSTEM_PROMPT },
+      ...history.slice(-10).map((m) => ({
+        text: m.text,
+        role: m.sender === "user" ? "user" : "model",
+      })),
+      { text: message.trim() },
+    ]);
 
-    for await (const chunk of stream) {
-      const delta = chunk.choices?.[0]?.delta?.content;
-      if (delta) {
-        res.write(`data: ${JSON.stringify({ token: delta })}\n\n`);
+    for await (const chunk of stream.stream) {
+      const text = chunk.text?.();
+      if (text) {
+        res.write(`data: ${JSON.stringify({ token: text })}\n\n`);
       }
     }
 
@@ -98,20 +92,18 @@ app.post("/api/chat", rateLimit, async (req, res) => {
   }
 
   try {
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        ...history.slice(-10).map((m) => ({
-          role: m.sender === "user" ? "user" : "assistant",
-          content: m.text,
-        })),
-        { role: "user", content: message.trim() },
-      ],
-    });
+    const model = genAI.getGenerativeModel({ model: MODEL });
+    const completion = await model.generateContent([
+      { text: SYSTEM_PROMPT },
+      ...history.slice(-10).map((m) => ({
+        text: m.text,
+        role: m.sender === "user" ? "user" : "model",
+      })),
+      { text: message.trim() },
+    ]);
 
     res.json({
-      reply: completion.choices[0].message.content,
+      reply: completion.response.text(),
     });
   } catch (error) {
     console.error(error);
@@ -128,18 +120,15 @@ app.post("/api/title", rateLimit, async (req, res) => {
   if (!message) return res.status(400).json({ error: "Message required." });
 
   try {
-    const completion = await client.chat.completions.create({
-      model: MODEL,
-      max_tokens: 20,
-      messages: [
-        {
-          role: "system",
-          content: "Generate a very short title (3-5 words max) for a conversation that starts with the following message. Reply with ONLY the title, no quotes, no punctuation at the end.",
-        },
-        { role: "user", content: message },
-      ],
-    });
-    res.json({ title: completion.choices[0].message.content.trim() });
+    const model = genAI.getGenerativeModel({ model: MODEL });
+    const completion = await model.generateContent([
+      {
+        text: "Generate a very short title (3-5 words max) for a conversation that starts with the following message. Reply with ONLY the title, no quotes, no punctuation at the end.",
+        role: "user",
+      },
+      { text: message, role: "user" },
+    ]);
+    res.json({ title: completion.response.text().trim() });
   } catch (error) {
     console.error(error);
     res.json({ title: "New Chat" });
