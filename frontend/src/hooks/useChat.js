@@ -38,7 +38,7 @@ export function useChat({ activeConversation, updateMessages, renameConversation
     if (activeConversation && messages.length > 1) {
       updateMessages(activeConversation.id, messages);
     }
-  }, [messages]);
+  }, [messages, activeConversation, updateMessages]);
 
   const stopGeneration = useCallback(() => {
     if (abortRef.current) {
@@ -182,7 +182,7 @@ export function useChat({ activeConversation, updateMessages, renameConversation
         abortRef.current = null;
       }
     },
-    [messages, isLoading, activeConversation, updateMessages, renameConversation]
+    [activeConversation, updateMessages, renameConversation]
   );
 
   const regenerate = useCallback(async () => {
@@ -199,7 +199,7 @@ export function useChat({ activeConversation, updateMessages, renameConversation
 
     // Wait a tick for state to update, then resend
     setTimeout(() => sendMessage(lastUserMsg.text), 50);
-  }, [messages, sendMessage]);
+  }, [sendMessage]);
 
   const clearChat = useCallback(() => {
     setMessages([WELCOME_MESSAGE]);
