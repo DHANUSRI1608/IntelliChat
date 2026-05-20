@@ -58,84 +58,60 @@ export default function InputBox({ onSend, isLoading, isStreaming, onStop }) {
     <div className="relative z-10 flex-shrink-0 px-4 pb-4 pt-2">
       <div className="max-w-4xl mx-auto">
         <div
-          className={`
-            bg-white/70 dark:bg-slate-800/60 backdrop-blur-xl
-            border border-slate-200/50 dark:border-slate-700/30
-            rounded-2xl transition-all duration-200
-            ${canSend ? "shadow-md shadow-indigo-200/30 dark:shadow-indigo-900/20 border-indigo-200/40 dark:border-indigo-700/30" : ""}
-            ${isLoading ? "opacity-80" : ""}
-          `}
+          className={`bg-white/85 dark:bg-slate-950/85 glass border border-slate-200/50 dark:border-slate-700/50 rounded-3xl transition-all duration-200 ${
+            canSend ? "shadow-xl shadow-indigo-200/30 dark:shadow-indigo-900/20" : "shadow-sm"
+          } ${isLoading ? "opacity-90" : ""}`}
         >
-          <div className="flex items-end gap-2 p-2">
-            <textarea
-              ref={textareaRef}
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={PLACEHOLDER_HINTS[placeholderIdx]}
-              disabled={isLoading}
-              rows={1}
-              className="flex-1 resize-none bg-transparent border-none outline-none
-                         text-sm text-slate-700 dark:text-slate-200
-                         placeholder:text-slate-400 dark:placeholder:text-slate-500
-                         font-body leading-relaxed py-2 px-2
-                         min-h-[36px] max-h-[160px]
-                         transition-all duration-300"
-            />
+          <div className="flex flex-col gap-3 p-3 md:p-4">
+            <div className="flex items-end gap-2">
+              <textarea
+                ref={textareaRef}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={PLACEHOLDER_HINTS[placeholderIdx]}
+                disabled={isLoading}
+                rows={1}
+                className="flex-1 resize-none bg-transparent border-none outline-none text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 font-body leading-relaxed py-3 px-3 min-h-[48px] max-h-[180px] transition-all duration-300"
+              />
 
-            {showStop ? (
-              <button
-                onClick={onStop}
-                className="flex-shrink-0 mb-0.5 w-9 h-9 rounded-xl flex items-center justify-center
-                           bg-rose-100 dark:bg-rose-950/40 text-rose-500
-                           border border-rose-200 dark:border-rose-800/40
-                           hover:bg-rose-200 dark:hover:bg-rose-900/40
-                           transition-all duration-200 active:scale-95"
-                title="Stop generating"
-              >
-                <Square size={13} className="fill-current" />
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={!canSend}
-                className={`
-                  flex-shrink-0 mb-0.5 w-9 h-9 rounded-xl flex items-center justify-center
-                  transition-all duration-200
-                  ${
+              {showStop ? (
+                <button
+                  onClick={onStop}
+                  className="flex-shrink-0 mb-0.5 w-11 h-11 rounded-2xl flex items-center justify-center bg-rose-100 dark:bg-rose-950/40 text-rose-500 border border-rose-200 dark:border-rose-800/40 hover:bg-rose-200 dark:hover:bg-rose-900/40 transition-all duration-200 active:scale-95"
+                  title="Stop generating"
+                >
+                  <Square size={13} className="fill-current" />
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={!canSend}
+                  className={`flex-shrink-0 mb-0.5 w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 ${
                     canSend
-                      ? "bg-gradient-to-br from-indigo-400 to-purple-500 text-white shadow-md shadow-indigo-300/30 hover:scale-105 hover:shadow-lg active:scale-95"
+                      ? "bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-lg shadow-indigo-300/30 hover:scale-105 active:scale-95"
                       : "bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed"
-                  }
-                `}
-              >
-                <SendHorizonal size={15} className={canSend ? "" : "opacity-60"} />
-              </button>
-            )}
-          </div>
+                  }`}
+                >
+                  <SendHorizonal size={15} className={canSend ? "" : "opacity-60"} />
+                </button>
+              )}
+            </div>
 
-          {/* Footer hint */}
-          <div className="px-4 pb-2 flex items-center justify-between">
-            <p className="text-[10px] text-slate-400 dark:text-slate-500">
-              Press{" "}
-              <kbd className="font-mono bg-slate-100 dark:bg-slate-700 px-1 rounded text-[9px]">
-                Enter
-              </kbd>{" "}
-              to send · {" "}
-              <kbd className="font-mono bg-slate-100 dark:bg-slate-700 px-1 rounded text-[9px]">
-                Shift+Enter
-              </kbd>{" "}
-              for newline
-            </p>
-            <span
-              className={`text-[10px] font-mono ${
-                value.length > 3500
-                  ? "text-rose-400"
-                  : "text-slate-400 dark:text-slate-500"
-              }`}
-            >
-              {value.length > 0 ? `${value.length}/4000` : ""}
-            </span>
+            <div className="flex flex-col gap-3 px-4 pb-2 text-[11px] text-slate-500 dark:text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+              <p className="leading-relaxed">
+                Press <kbd className="font-mono bg-slate-100 dark:bg-slate-700 px-1 rounded text-[10px]">Enter</kbd> to send · <kbd className="font-mono bg-slate-100 dark:bg-slate-700 px-1 rounded text-[10px]">Shift+Enter</kbd> for newline
+              </p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 justify-end">
+                <span className={`font-mono ${value.length > 3500 ? "text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>
+                  {value.length > 0 ? `${value.length}/4000` : ""}
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 dark:bg-slate-800/80 px-2 py-1 text-[10px] text-slate-500 dark:text-slate-400">
+                  <span className="h-2 w-2 rounded-full bg-indigo-400" />
+                  gpt-4.1-mini
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 

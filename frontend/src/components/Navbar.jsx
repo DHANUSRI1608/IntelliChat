@@ -1,5 +1,5 @@
 import React from "react";
-import { Sun, Moon, Brain, PanelLeftOpen, PanelLeftClose, MessageSquarePlus } from "lucide-react";
+import { Sun, Moon, Brain, PanelLeftOpen, PanelLeftClose, MessageSquarePlus, Trash2 } from "lucide-react";
 
 export default function Navbar({
   isDark,
@@ -7,7 +7,10 @@ export default function Navbar({
   onToggleSidebar,
   sidebarOpen,
   onNewChat,
+  onClearChat,
+  hasConversation,
   conversationTitle,
+  messageCount,
 }) {
   return (
     <header className="relative z-10 flex-shrink-0">
@@ -49,6 +52,11 @@ export default function Navbar({
                     ? conversationTitle
                     : "AI Assistant"}
                 </p>
+                {messageCount > 0 && (
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 font-body mt-1">
+                    {messageCount} message{messageCount === 1 ? "" : "s"}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -65,6 +73,19 @@ export default function Navbar({
             >
               <MessageSquarePlus size={16} />
             </button>
+
+            {hasConversation && messageCount > 0 && (
+              <button
+                onClick={onClearChat}
+                title="Clear current chat"
+                className="w-8 h-8 rounded-lg flex items-center justify-center
+                           text-slate-500 dark:text-slate-400
+                           hover:bg-slate-100 dark:hover:bg-slate-800
+                           transition-all duration-200 hover:scale-105"
+              >
+                <Trash2 size={16} />
+              </button>
+            )}
 
             <button
               onClick={onToggleTheme}

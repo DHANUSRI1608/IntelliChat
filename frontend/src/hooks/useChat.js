@@ -35,7 +35,7 @@ export function useChat({ activeConversation, updateMessages, renameConversation
 
   // Persist messages back to conversation store
   useEffect(() => {
-    if (activeConversation && messages.length > 1) {
+    if (activeConversation) {
       updateMessages(activeConversation.id, messages);
     }
   }, [messages, activeConversation, updateMessages]);

@@ -104,7 +104,10 @@ export default function App() {
           onToggleSidebar={() => setSidebarOpen((v) => !v)}
           sidebarOpen={sidebarOpen}
           onNewChat={handleNewChat}
+          onClearChat={clearChat}
+          hasConversation={Boolean(activeConversation)}
           conversationTitle={activeConversation?.title}
+          messageCount={messages.filter((m) => m.id !== "welcome").length}
         />
 
         <ChatWindow

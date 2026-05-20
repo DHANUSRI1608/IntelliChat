@@ -43,21 +43,24 @@ export default function ChatWindow({
     <div ref={containerRef} className="flex-1 overflow-y-auto overscroll-contain relative">
       {showWelcome ? (
         /* ── Welcome Hero ──────────────────────────────────────── */
-        <div className="flex flex-col items-center justify-center h-full px-4 py-8 animate-fade-in">
+        <div className="flex min-h-[calc(100vh-12rem)] flex-col items-center justify-center px-4 py-10 animate-fade-in">
           <div className="relative mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-300/30 dark:shadow-indigo-900/30">
-              <Brain size={30} className="text-white" />
+            <div className="w-20 h-20 rounded-[26px] bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center shadow-2xl shadow-indigo-300/20 dark:shadow-indigo-950/20">
+              <Brain size={32} className="text-white" />
             </div>
             <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 border-2 border-white dark:border-slate-900 animate-pulse-slow" />
           </div>
-          <h2 className="font-display font-bold text-2xl text-slate-800 dark:text-white mb-2">
-            Welcome to Intellichat
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-md mb-8">
-            Your intelligent AI assistant for coding, writing, analysis, and exploration.
-            Start a conversation below.
-          </p>
-          <SuggestedPrompts onSelect={onSuggestSelect} />
+          <div className="max-w-xl text-center">
+            <h2 className="font-display font-bold text-3xl text-slate-900 dark:text-white tracking-tight mb-3">
+              Welcome to IntelliChat
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-8">
+              Your intelligent AI companion for coding, learning, writing, and exploration. Select a prompt below or type a message to begin.
+            </p>
+          </div>
+          <div className="w-full px-2 sm:px-0">
+            <SuggestedPrompts onSelect={onSuggestSelect} />
+          </div>
         </div>
       ) : (
         /* ── Messages ──────────────────────────────────────────── */
